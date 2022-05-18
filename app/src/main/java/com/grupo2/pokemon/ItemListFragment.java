@@ -98,7 +98,7 @@ public class ItemListFragment extends Fragment {
         btnpaginaanadir.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-               Navigation.findNavController(view).navigate(R.id.fragmentform);
+               Navigation.findNavController(view).navigate(R.id.formFragment);
             }
         });
         

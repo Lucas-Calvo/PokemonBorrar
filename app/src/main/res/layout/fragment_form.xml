@@ -60,13 +60,4 @@
         tools:layout_editor_absoluteY="430dp"
         tools:ignore="MissingConstraints" />
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentform"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/primary_details_nav_graph"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -119,6 +119,7 @@ public class PokemonBD extends SQLiteOpenHelper {
 
         values.put("NOMBRE", nombre);
         values.put("DESCRIPTION", "Soy "+nombre);
+        values.put("IMAGEN", " ");
 
         db.insert("POKEMON", null, values);
     }
