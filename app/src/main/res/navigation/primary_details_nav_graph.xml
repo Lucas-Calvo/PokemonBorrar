@@ -12,6 +12,9 @@
         <action
             android:id="@+id/show_item_detail"
             app:destination="@id/item_detail_fragment" />
+        <action
+            android:id="@+id/action_item_list_fragment_to_formFragment"
+            app:destination="@id/formFragment" />
     </fragment>
     <fragment
         android:id="@+id/item_detail_fragment"
@@ -22,5 +25,14 @@
             android:name="item_id"
             android:defaultValue=""
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/formFragment"
+        android:name="com.grupo2.pokemon.fragmentForm"
+        android:label="fragment_form"
+        tools:layout="@layout/fragment_form" >
+        <action
+            android:id="@+id/action_formFragment_to_item_list_fragment"
+            app:destination="@id/item_list_fragment" />
     </fragment>
 </navigation>

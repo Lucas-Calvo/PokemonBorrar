@@ -1,5 +1,6 @@
 package com.grupo2.pokemon;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -7,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class PokemonBD extends SQLiteOpenHelper {
@@ -25,11 +27,16 @@ public class PokemonBD extends SQLiteOpenHelper {
                 "DESCRIPTION TEXT NOT NULL,"+
                 "IMAGEN TEXT NOT NULL);");
 
-        Pokemon p1 = new Pokemon("bulbasaur", "soy bulbasaur", "");
-        Pokemon p2 = new Pokemon("ivvysaur", "soy ivysaur", "");
-        Pokemon p3 = new Pokemon("venusaur", "soy venusaur", "");
-        Pokemon p4 = new Pokemon("charmander", "soy charmander", "");
-        Pokemon p5 = new Pokemon("charmeleon", "soy charmeleon", "");
+        Pokemon p1 = new Pokemon(0,"bulbasaur", "soy bulbasaur", "");
+        insertarPokemon(p1,sqLiteDatabase);
+        Pokemon p2 = new Pokemon(1,"ivvysaur", "soy ivysaur", "");
+        insertarPokemon(p2,sqLiteDatabase);
+        Pokemon p3 = new Pokemon(2,"venusaur", "soy venusaur", "");
+        insertarPokemon(p3,sqLiteDatabase);
+        Pokemon p4 = new Pokemon(3,"charmander", "soy charmander", "");
+        insertarPokemon(p4,sqLiteDatabase);
+        Pokemon p5 = new Pokemon(4,"charmeleon", "soy charmeleon", "");
+        insertarPokemon(p5,sqLiteDatabase);
 
     }
 
@@ -38,36 +45,41 @@ public class PokemonBD extends SQLiteOpenHelper {
         //No se usa
     }
 
-    public void insertarPokemon(Pokemon pokemon){
+    public void insertarPokemon(Pokemon pokemon, SQLiteDatabase db){
 
-        SQLiteDatabase db = getWritableDatabase();
+        if(db==null){
+            db = getWritableDatabase();
+        }
 
         ContentValues values = new ContentValues();
 
+        values.put("_ID", pokemon.getId());
         values.put("NOMBRE", pokemon.getName());
-        values.put("DESCRIPCION", pokemon.getDescripcion());
+        values.put("DESCRIPTION", pokemon.getDescripcion());
         values.put("IMAGEN", pokemon.getImage());
 
         db.insert("POKEMON", null, values);
     }
+    @SuppressLint("Range")
     public List<Pokemon> getAllPokemon(){
 
         SQLiteDatabase db = getReadableDatabase();
         Cursor c = db.query(
-                PokemonBD.DATABASE_NAME,
+                "Pokemon",
                 null,
-                "id=?",
+                null,
                 null,
                 null,
                 null,
                 null
         );
-        List<Pokemon> pokelist = new ArrayList<Pokemon>();
+        List<Pokemon> pokelist = new ArrayList<>();
 
-        while(c.getCount()>0 && c.moveToNext()){
-            Pokemon poke=new Pokemon("","","");
+        while(c.moveToNext()){
+            Pokemon poke=new Pokemon(0,"","","");
+            poke.setId(c.getInt((c.getColumnIndex("_ID"))));
             poke.setName(c.getString(c.getColumnIndex("NOMBRE")));
-            poke.setDescripcion(c.getString(c.getColumnIndex("DESCRIPCION")));
+            poke.setDescripcion(c.getString(c.getColumnIndex("DESCRIPTION")));
             poke.setImage(c.getString(c.getColumnIndex("IMAGEN")));
             pokelist.add(poke);
         }
@@ -75,15 +87,16 @@ public class PokemonBD extends SQLiteOpenHelper {
 
     }
 
-    public Pokemon getPokemon(){
+    @SuppressLint("Range")
+    public Pokemon getPokemon(String id){
 
-        Pokemon pokemon = new Pokemon("","","");
+        Pokemon pokemon = new Pokemon(0,"","","");
         SQLiteDatabase db = getReadableDatabase();
         Cursor c = db.query(
-                PokemonBD.DATABASE_NAME,
+                "Pokemon",
                 null,
                 "id=?",
-                null,
+                new String[]{id},
                 null,
                 null,
                 null
@@ -95,5 +108,18 @@ public class PokemonBD extends SQLiteOpenHelper {
         }
         return pokemon;
 
+    }
+
+    public void añadirPokemon(String nombre){
+        SQLiteDatabase db=this.getWritableDatabase();
+        if(db==null){
+            db = getWritableDatabase();
+        }
+        ContentValues values = new ContentValues();
+
+        values.put("NOMBRE", nombre);
+        values.put("DESCRIPTION", "Soy "+nombre);
+
+        db.insert("POKEMON", null, values);
     }
 }

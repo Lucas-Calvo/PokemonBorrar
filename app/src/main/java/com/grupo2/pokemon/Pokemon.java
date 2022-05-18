@@ -4,11 +4,14 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Pokemon {
+
+    private int id;
     private String name;
     private String descripcion;
     private String image;
 
-    public Pokemon(String name, String url, String image) {
+    public Pokemon(int id, String name, String url, String image) {
+        this.id=id;
         this.name = name;
         this.descripcion = url;
         this.image = image;
@@ -37,4 +40,12 @@ public class Pokemon {
     public void setImage(String image) {
         this.image = image;
     }
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 }

@@ -12,14 +12,17 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.GsonBuilder;
 import com.grupo2.pokemon.databinding.FragmentItemListBinding;
 import com.grupo2.pokemon.databinding.ItemListContentBinding;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -87,12 +90,22 @@ public class ItemListFragment extends Fragment {
         // layout configuration (layout, layout-sw600dp)
 
         View itemDetailFragmentContainer = view.findViewById(R.id.item_detail_nav_container);
-        PokemonBD db;
-        db  = new PokemonBD(getApplicationContext());
-        List<Pokemon> pokemonList = new ArrayList<Pokemon>();
-        pokemonList.add(db.getPokemon());
-        setupRecyclerView((RecyclerView) recyclerView, itemDetailFragmentContainer, (ArrayList<Pokemon>) pokemonList);
 
+
+
+        FloatingActionButton btnpaginaanadir = getActivity().findViewById(R.id.botonañadir);
+
+        btnpaginaanadir.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+               Navigation.findNavController(view).navigate(R.id.fragmentform);
+            }
+        });
+        
+
+        PokemonBD db= new PokemonBD(getContext());
+        List<Pokemon> pokelist= db.getAllPokemon();
+        setupRecyclerView((RecyclerView) recyclerView, itemDetailFragmentContainer, (ArrayList<Pokemon>) pokelist);
     }
 
     private void setupRecyclerView(
