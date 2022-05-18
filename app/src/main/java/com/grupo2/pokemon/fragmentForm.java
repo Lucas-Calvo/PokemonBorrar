@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -81,6 +82,7 @@ public class fragmentForm extends Fragment {
                 PokemonBD db= new PokemonBD(getContext());
                 String nombre=etnombre.getText().toString();
                 db.añadirPokemon(nombre);
+               Navigation.findNavController(view).navigate(R.id.item_list_fragment);
            }
         });
     }
